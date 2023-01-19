@@ -1,0 +1,105 @@
+$gray: #fffeee;
+$red: #f11111;
+$green: #44be95;
+$white:#ffffff;
+.col_red{
+  color:$red;
+}
+.col_green{
+  color:$green;
+}
+.col_white{
+  color:$white;
+}
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-j-c {
+  justify-content: center;
+}
+
+.flex-j-sb {
+  justify-content: space-between;
+}
+
+.flex-j-ar {
+  justify-content: space-around;
+}
+
+.flex-a-c {
+  align-items: center;
+}
+
+.flex-a-e {
+  align-items: flex-end;
+}
+
+.w {
+  width: 1200px;
+}
+
+.m-auto {
+  margin: 0 auto;
+}
+
+.height-one {
+  height: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.text-overflow-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.text-overflow-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.overflow-hide {
+  overflow: hidden;/*超出部分隐藏*/
+  white-space: nowrap;/*不换行*/
+  text-overflow:ellipsis;/*超出部分文字以...显示*/
+}
+
+// 滚动条隐藏
+.hiddenScroll {
+  scrollbar-width: none; /* firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.hiddenScroll::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+}
+
+.finger-point {
+  cursor: pointer
+}
+
+.cursor-default {
+  cursor:default;
+}
+
+.el-icon-circle-close{
+  color: #ffffff;
+}
