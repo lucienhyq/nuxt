@@ -14,7 +14,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: '//at.alicdn.com/t/font_432132_ga7x83fcdac.css' }
+      { rel: 'stylesheet', href: '//at.alicdn.com/t/c/font_432132_u2tqr30e3c.css' }
     ]
   },
   ssr: true,
@@ -31,6 +31,7 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/axios', // 拦截器
+    { src: '@/plugins/fun.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -39,9 +40,26 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
   ],
-
+  proxy: {
+    //本地调试开启代理  线上用不上  可以不用管  （静态化需要注释）
+    "/user": {
+      target: "http://127.0.0.1:3000",
+      changeOrigin: true, //是否跨域
+      secure: false,
+      pathRewrite: {
+        '^/user': '', // 把 /api 替换成 /
+      }
+    }
+  },
+  axios: {
+    // 静态化需要注释
+    baseURL: "http://127.0.0.1:3000",  // 必须要改成对应域名
+    proxy: process.env.NODE_ENV !== 'production',
+    credentials: false // 表示跨域请求时是否需要使用凭证
+  },
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/proxy',
     '@nuxtjs/axios'
   ],
   styleResources: {

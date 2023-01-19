@@ -6,11 +6,38 @@
       <div class="contenIndex">
         <div class="refereesLis">
           <div class="refereesLis_left">
-            <span>注册裁判列表</span>
+            <div class="title">注册裁判列表</div>
+            <div class="refereesLis_left_list">
+              <el-table :data="list" style="width: 100%">
+                <el-table-column
+                  prop="referee_name"
+                  label="裁判名称"
+                  width="130"
+                ></el-table-column>
+                <el-table-column
+                  prop="create_time"
+                  label="注册时间"
+                ></el-table-column>
+                <el-table-column
+                  prop="mobile"
+                  label="联系方式"
+                ></el-table-column>
+                <el-table-column prop="city" label="地区"></el-table-column>
+                <el-table-column
+                  prop="referee_Price"
+                  label="裁判出场费价格（元）"
+                ></el-table-column>
+              </el-table>
+            </div>
           </div>
-          <div class="refereesLis_right"></div>
+          <div class="refereesLis_right">
+            <template v-if="metaData.result == 0">
+              <img src="../static/photo-mr.jpg" alt="" />
+              <nuxt-link to="/login" class="text">去登录</nuxt-link>
+            </template>
+          </div>
         </div>
-        <div class="right">right</div>
+        <div class="right"></div>
       </div>
     </is-layout>
   </div>
@@ -22,6 +49,7 @@ export default {
   data() {
     return {
       metaData: {},
+      list: [],
     };
   },
   components: { topNav, isLayout },
@@ -39,6 +67,46 @@ export default {
         },
       ],
     };
+  },
+  mounted() {
+    this.getReferLis();
+    this.getData();
+    // if(this.metaData.result == 0){
+    //   this.$message.error(this.metaData.msg)
+    // }
+    console.log(this.metaData);
+  },
+  methods: {
+    getReferLis() {
+      this.fun
+        .$post(
+          "/user/allReferee",
+          {
+            is: 1,
+          },
+          "loading"
+        )
+        .then((response) => {
+          console.log(response, "dddddddddddd");
+          if (response.result !== 1) {
+            this.$message.error(response.msg);
+            return;
+          }
+          this.list = response.data;
+        });
+    },
+    getData() {
+      this.fun
+        .$post(
+          "/user/checkLogin",
+          {},
+          "loading"
+        )
+        .then((response) => {
+          console.log(response, "dddddddddddd");
+          this.metaData = response;
+        });
+    },
   },
   // async asyncData({ params, query, store, app }) {
   //   //首页信息
@@ -67,10 +135,43 @@ export default {
   .contenIndex {
     margin-top: 20px;
     background: #fff;
-    .refereesLis{
+    .refereesLis {
       display: flex;
-      .refereesLis_left{
-
+      justify-content: space-between;
+      overflow: hidden;
+      .refereesLis_right {
+        width: 30%;
+        flex-shrink: 0;
+        padding: 10px 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 90px;
+          height: 90px;
+          border-radius: 50%;
+        }
+        .text {
+          font-size: 16px;
+          margin-top: 30px;
+          color: red;
+          text-decoration: none;
+          color: #000;
+        }
+      }
+      .refereesLis_left {
+        flex: 1;
+        .title {
+          font-size: 20px;
+          font-weight: bold;
+          padding: 10px 15px;
+        }
+        .refereesLis_left_list {
+          padding: 0 15px;
+          display: flex;
+          justify-content: space-around;
+        }
       }
     }
   }
