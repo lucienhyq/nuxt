@@ -31,9 +31,14 @@
             </div>
           </div>
           <div class="refereesLis_right">
+            <span class="title">用户信息</span>
             <template v-if="metaData.result == 0">
               <img src="../static/photo-mr.jpg" alt="" />
               <nuxt-link to="/login" class="text">去登录</nuxt-link>
+            </template>
+            <template v-else>
+              <img src="../static/photo-mr.jpg" alt="" />
+              <div v-if="metaData.data">{{metaData.data.userName}}</div>
             </template>
           </div>
         </div>
@@ -74,7 +79,6 @@ export default {
     // if(this.metaData.result == 0){
     //   this.$message.error(this.metaData.msg)
     // }
-    console.log(this.metaData);
   },
   methods: {
     getReferLis() {

@@ -1,0 +1,58 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td {
+    margin:0;
+    padding:0;
+}
+/* blockquote {
+  position: relative;
+  color: #999;
+  font-weight: 400;
+  border-left: 2px solid #1abc9c;
+  padding-left: 1em;
+  margin: 1em 3em 1em 2em;
+} */
+body{
+    background:#fff;
+    color:#000;
+    font-size:14px;
+    font-family: 'inherit';
+  padding-right: 0!important;
+}
+html,body{ min-height:101%;}
+html{overflow-y:scroll; overflow:-moz-scrollbars-vertical;}
+td,th,caption {
+    font-size:14px;
+}
+/*h1, h2, h3, h4, h5, h6 {*/
+    /*font-size:100%;*/
+/*}*/
+address, caption, cite, code, dfn, th, var {
+    font-style:normal; font-weight:normal;
+}
+a{
+    text-decoration:none;
+}
+img{
+    border:none;
+}
+ol,ul,li {
+    list-style:none;
+}
+/* #knowledge-article ul,.tinymce-box ul{ list-style:disc inside;}
+#knowledge-article ol,.tinymce-box ol{ list-style:decimal inside;}
+#knowledge-article li,.tinymce-box li {list-style:inherit} */
+li{
+    vertical-align:top;
+}
+input, textarea, select, button {
+    font:14px 'Microsoft yahei',Verdana,Helvetica,Arial,sans-serif; }
+table {
+    border-collapse:collapse;
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    height:0;
+    clear:both;
+    visibility: hidden;
+}
+.clearfix { *zoom:1; }
