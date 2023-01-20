@@ -33,6 +33,7 @@ export default {
 .tabnav {
   background: #fff;
   position: sticky;
+  z-index: 99;
   top: 0;
   left: 0;
   width: 100%;

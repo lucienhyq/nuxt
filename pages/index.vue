@@ -6,9 +6,14 @@
       <div class="contenIndex">
         <div class="refereesLis">
           <div class="refereesLis_left">
-            <div class="title">注册裁判列表</div>
+            <div class="title">已注册裁判列表</div>
             <div class="refereesLis_left_list">
-              <el-table :data="list" style="width: 100%">
+              <el-table
+                :data="list"
+                style="width: 100%"
+                :cell-style="postStyle"
+                :header-cell-style="postStyle"
+              >
                 <el-table-column
                   prop="referee_name"
                   label="裁判名称"
@@ -31,14 +36,23 @@
             </div>
           </div>
           <div class="refereesLis_right">
-            <span class="title">用户信息</span>
             <template v-if="metaData.result == 0">
               <img src="../static/photo-mr.jpg" alt="" />
               <nuxt-link to="/login" class="text">去登录</nuxt-link>
             </template>
             <template v-else>
-              <img src="../static/photo-mr.jpg" alt="" />
-              <div v-if="metaData.data">{{metaData.data.userName}}</div>
+              <span class="title">用户信息</span>
+              <img v-if="metaData.data"
+                :src="
+                  metaData.data.avatar
+                    ? metaData.data.avatar
+                    : '../static/photo-mr.jpg'
+                "
+                alt=""
+              />
+              <div v-if="metaData.data" class="nameTxt">
+                {{ metaData.data.user_name }}
+              </div>
             </template>
           </div>
         </div>
@@ -81,6 +95,11 @@ export default {
     // }
   },
   methods: {
+    postStyle() {
+      return {
+        "text-align": "center",
+      };
+    },
     getReferLis() {
       this.fun
         .$post(
@@ -91,7 +110,6 @@ export default {
           "loading"
         )
         .then((response) => {
-          console.log(response, "dddddddddddd");
           if (response.result !== 1) {
             this.$message.error(response.msg);
             return;
@@ -100,16 +118,9 @@ export default {
         });
     },
     getData() {
-      this.fun
-        .$post(
-          "/user/checkLogin",
-          {},
-          "loading"
-        )
-        .then((response) => {
-          console.log(response, "dddddddddddd");
-          this.metaData = response;
-        });
+      this.fun.$post("/user/checkLogin", {}, "loading").then((response) => {
+        this.metaData = response;
+      });
     },
   },
   // async asyncData({ params, query, store, app }) {
@@ -155,6 +166,14 @@ export default {
           width: 90px;
           height: 90px;
           border-radius: 50%;
+        }
+        .nameTxt {
+          margin-top: 15px;
+          text-decoration: none;
+          color: #000;
+        }
+        .title {
+          margin-bottom: 10px;
         }
         .text {
           font-size: 16px;
