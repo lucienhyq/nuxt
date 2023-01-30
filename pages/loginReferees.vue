@@ -11,16 +11,18 @@
             label-width="120px"
             label-position="left"
           >
-            <el-form-item label="裁判名称">
+            <el-form-item label="裁判昵称">
               <el-input
                 v-model="form.referee_name"
                 style="width: 200px"
+                placeholder="请输入裁判昵称"
               ></el-input>
             </el-form-item>
             <el-form-item label="裁判价格">
               <el-input
                 v-model="form.referee_Price"
                 style="width: 200px"
+                placeholder="请输入裁判价格"
               ></el-input>
             </el-form-item>
             <el-form-item label="头像">
@@ -40,13 +42,25 @@
                 </div>
               </el-upload>
             </el-form-item>
-            <el-form-item label="所在地区">
-              <el-input v-model="form.city"></el-input>
+            <client-only>
+              <el-form-item label="所在地区">
+                <el-cascader
+                  size="large"
+                  :options="optionsA"
+                  v-model="selectedOptions"
+                  @change="handleChange"
+                  placeholder="请选择所在地区"
+                >
+                </el-cascader>
+              </el-form-item>
+            </client-only>
+            <el-form-item label="联系电话" style="width: 320px">
+              <el-input
+                v-model="form.mobile"
+                placeholder="请输入裁判联系电话"
+              ></el-input>
             </el-form-item>
-            <el-form-item label="联系电话" style="width: 200px">
-              <el-input v-model="form.mobile"></el-input>
-            </el-form-item>
-            <el-form-item label="裁判等级">
+            <el-form-item label="请选择裁判等级">
               <el-radio-group v-model="form.level">
                 <el-radio label="1">一级</el-radio>
                 <el-radio label="2">二级</el-radio>
@@ -55,7 +69,6 @@
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="onSubmit">立即创建</el-button>
-              <el-button>取消</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -66,6 +79,10 @@
 <script>
 import topNav from "../components/navChild/topNav.vue";
 import isLayout from "~/components/defauleLayou.vue";
+if (process.client) {
+  var regionData = require("element-china-area-data").regionDataPlus;
+  var CodeToText = require("element-china-area-data").CodeToText;
+}
 export default {
   data() {
     return {
@@ -75,18 +92,91 @@ export default {
         avatar: "",
         city: "",
         mobile: "",
-        createID: 0,
         level: null,
       },
+      optionsA: regionData,
+      selectedOptions: [],
+    };
+  },
+  head() {
+    return {
+      title: "裁判平台",
+      meta: [
+        {
+          name: "keywords",
+          content: `注册裁判`,
+        },
+        {
+          name: "description",
+          content: `注册裁判`,
+        },
+      ],
     };
   },
   mounted() {},
   methods: {
+    handleChange(value) {
+      let str = this.getCodeToText(value.toString(), value);
+      this.form.city = str;
+    },
+    getCodeToText(codeStr, codeArray) {
+      if (null === codeStr && null === codeArray) {
+        return null;
+      } else if (null === codeArray) {
+        codeArray = codeStr.split(",");
+      }
+
+      let area = "";
+      switch (codeArray.length) {
+        case 1:
+          area += CodeToText[codeArray[0]];
+          break;
+        case 2:
+          area += CodeToText[codeArray[0]] + "/" + CodeToText[codeArray[1]];
+          break;
+        case 3:
+          area +=
+            CodeToText[codeArray[0]] +
+            "/" +
+            CodeToText[codeArray[1]] +
+            "/" +
+            CodeToText[codeArray[2]];
+          break;
+        default:
+          break;
+      }
+      if (area[0] == "") {
+        area = "全国";
+      }
+      return area;
+    },
     onSubmit() {
       console.log("onSubmit");
+      let json = {
+        referee_name: this.form.referee_name,
+        referee_Price: this.form.referee_Price,
+        city: this.form.city,
+        mobile: this.form.mobile,
+        level: this.form.level,
+        avatar: this.form.avatar,
+      };
+      this.fun.$post("/user/addReferee", json, "loading").then((response) => {
+        if (response.result !== 1) {
+          this.$message.error(response.msg);
+          return;
+        }
+        this.$message.success(response.msg);
+        this.form.referee_name = "";
+        this.form.referee_Price = "";
+        this.form.avatar = "";
+        this.form.city = "";
+        this.form.mobile = "";
+        this.form.level = "";
+      });
     },
     handleAvatarSuccess(res, file) {
       this.form.avatar = res.data;
+      console.log(this.form.avatar);
     },
   },
   components: { topNav, isLayout },
@@ -105,12 +195,12 @@ export default {
     box-sizing: border-box;
   }
 }
-.avatar{
+.avatar {
   width: 150px;
   max-height: 200px;
   border-radius: 5px;
 }
-.noneAddImg{
+.noneAddImg {
   width: 100px;
   height: 100px;
   border: dashed 1px #999;
@@ -118,7 +208,7 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  .avatar-uploader-icon{
+  .avatar-uploader-icon {
     font-size: 40px;
     color: #999;
   }

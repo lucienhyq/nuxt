@@ -10,7 +10,9 @@
       >
         <nuxt-link to="/loginReferees">注册裁判</nuxt-link>
       </div>
-      <div class="navLi">裁判列表</div>
+      <div class="navLi" :class="[routeName == 'refereesList' ? 'isSelect' : '']">
+        <nuxt-link to="/refereesList">裁判列表</nuxt-link>
+      </div>
       <div class="navLi">联系我们</div>
     </div>
   </div>

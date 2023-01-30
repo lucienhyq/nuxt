@@ -74,7 +74,7 @@ export default {
   components: { topNav, isLayout },
   head() {
     return {
-      title: "裁判首页",
+      title: "裁判平台",
       meta: [
         {
           name: "keywords",
@@ -191,7 +191,7 @@ export default {
           padding: 10px 15px;
         }
         .refereesLis_left_list {
-          padding: 0 15px;
+          padding: 30px 15px;
           display: flex;
           justify-content: space-around;
         }
