@@ -42,7 +42,8 @@
             </template>
             <template v-else>
               <span class="title">用户信息</span>
-              <img v-if="metaData.data"
+              <img
+                v-if="metaData.data"
                 :src="
                   metaData.data.avatar
                     ? metaData.data.avatar
@@ -53,10 +54,36 @@
               <div v-if="metaData.data" class="nameTxt">
                 {{ metaData.data.user_name }}
               </div>
+              <span class="outlogin" @click="outlogin">退出登录</span>
             </template>
           </div>
         </div>
-        <div class="right"></div>
+        <div class="newsList" v-if="news.length > 0">
+          <span>热点要闻</span>
+          <div class="newsLis">
+            <div
+              class="spanTitle"
+              v-for="(item, index) in news"
+              :key="index"
+              @click="toNews(item.link)"
+            >
+              {{ item.title }}
+            </div>
+          </div>
+        </div>
+        <div class="newsList" v-if="nbaNews.length > 0">
+          <span>NBA新闻</span>
+          <div class="newsLis">
+            <div
+              class="spanTitle"
+              v-for="(item, index) in nbaNews"
+              :key="index"
+              @click="toNews(item.link)"
+            >
+              {{ item.title }}
+            </div>
+          </div>
+        </div>
       </div>
     </is-layout>
   </div>
@@ -69,6 +96,8 @@ export default {
     return {
       metaData: {},
       list: [],
+      news: [],
+      nbaNews: [],
     };
   },
   components: { topNav, isLayout },
@@ -88,17 +117,43 @@ export default {
     };
   },
   mounted() {
+    this.getNews();
+    this.getNews(1);
     this.getReferLis();
     this.getData();
-    // if(this.metaData.result == 0){
-    //   this.$message.error(this.metaData.msg)
-    // }
+    console.log(window.location.href)
   },
   methods: {
+    outlogin() {
+      this.fun.$get("/user/outLogin", {}, "loading").then((response) => {
+        if (response.result !== 1) {
+          this.$message.error(response.msg);
+          return;
+        }
+        this.getData();
+      });
+    },
     postStyle() {
       return {
         "text-align": "center",
       };
+    },
+    getNews(key) {
+      let json = {};
+      if (key) {
+        json.news = 1;
+      }
+      this.fun.$post("/user/acquirePost", json, "loading").then((response) => {
+        if (response.result !== 1) {
+          this.$message.error(response.msg);
+          return;
+        }
+        if (key) {
+          this.nbaNews = response.data;
+        } else {
+          this.news = response.data;
+        }
+      });
     },
     getReferLis() {
       this.fun
@@ -122,18 +177,10 @@ export default {
         this.metaData = response;
       });
     },
+    toNews(link) {
+      window.open(link);
+    },
   },
-  // async asyncData({ params, query, store, app }) {
-  //   //首页信息
-  //   let metaData = await app.$axios.post(
-  //     `http://localhost:3000/checkLogin`,
-  //     {},
-  //     {}
-  //   );
-  //   return {
-  //     metaData: metaData,
-  //   };
-  // },
 };
 </script>
 <style>
@@ -150,6 +197,38 @@ export default {
   .contenIndex {
     margin-top: 20px;
     background: #fff;
+    .newsList {
+      margin-top: 20px;
+      border-radius: 5px;
+      padding: 10px 15px;
+      .newsLis {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        .spanTitle {
+          margin-right: 5%;
+          width: 30%;
+          flex-shrink: 0;
+          color: #999;
+          line-height: 30px;
+          cursor: pointer;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .spanTitle:nth-child(3n) {
+          margin-right: 0;
+        }
+        .spanTitle:hover {
+          color: #000;
+        }
+      }
+      span {
+        font-weight: bold;
+        font-size: 20px;
+        text-align: left;
+      }
+    }
     .refereesLis {
       display: flex;
       justify-content: space-between;
@@ -171,6 +250,11 @@ export default {
           margin-top: 15px;
           text-decoration: none;
           color: #000;
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+        .outlogin {
+          color: #999;
         }
         .title {
           margin-bottom: 10px;
