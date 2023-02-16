@@ -120,7 +120,7 @@ export default {
     this.getNews();
     this.getNews(1);
     this.getReferLis();
-    this.getData();
+    // this.getData();
     console.log(window.location.href)
   },
   methods: {
@@ -130,7 +130,7 @@ export default {
           this.$message.error(response.msg);
           return;
         }
-        this.getData();
+        // this.getData();
       });
     },
     postStyle() {
@@ -148,11 +148,14 @@ export default {
           this.$message.error(response.msg);
           return;
         }
-        if (key) {
-          this.nbaNews = response.data;
-        } else {
-          this.news = response.data;
+        if(response.data){
+          if (key) {
+            this.nbaNews = response.data;
+          } else {
+            this.news = response.data;
+          }
         }
+        
       });
     },
     getReferLis() {
