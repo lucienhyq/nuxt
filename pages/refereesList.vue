@@ -105,9 +105,9 @@ export default {
       list: [],
       options: [
         { value: "", label: "请选择" },
-        { value: "0", label: "等级一" },
-        { value: "1", label: "等级二" },
-        { value: "2", label: "等级三" },
+        { value: "1", label: "等级一" },
+        { value: "2", label: "等级二" },
+        { value: "3", label: "等级三" },
       ],
     };
   },

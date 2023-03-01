@@ -7,10 +7,14 @@ export default {
       lang: 'en'
     },
     meta: [
+      { name: 'renderer', content: 'webkit'},
+      { name: 'force-rendering', content: 'webkit'},
+      { 'http-equiv': 'X-UA-Compatible', content: 'IE=Edge,chrome=1'},
+      { name: 'baidu-site-verification', content: 'mREHhDF8nW'},
+
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

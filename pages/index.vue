@@ -1,91 +1,112 @@
 
 <template>
   <div ID="referees">
-    <topNav></topNav>
-    <is-layout>
-      <div class="contenIndex">
-        <div class="refereesLis">
-          <div class="refereesLis_left">
-            <div class="title">已注册裁判列表</div>
-            <div class="refereesLis_left_list">
-              <el-table
-                :data="list"
-                style="width: 100%"
-                :cell-style="postStyle"
-                :header-cell-style="postStyle"
-              >
-                <el-table-column
-                  prop="referee_name"
-                  label="裁判名称"
-                  width="130"
-                ></el-table-column>
-                <el-table-column
-                  prop="create_time"
-                  label="注册时间"
-                ></el-table-column>
-                <el-table-column
-                  prop="mobile"
-                  label="联系方式"
-                ></el-table-column>
-                <el-table-column prop="city" label="地区"></el-table-column>
-                <el-table-column
-                  prop="referee_Price"
-                  label="裁判出场费价格（元）"
-                ></el-table-column>
-              </el-table>
-            </div>
-          </div>
-          <div class="refereesLis_right">
-            <template v-if="metaData.result == 0">
-              <img src="../static/photo-mr.jpg" alt="" />
-              <nuxt-link to="/login" class="text">去登录</nuxt-link>
-            </template>
-            <template v-else>
-              <span class="title">用户信息</span>
-              <img
-                v-if="metaData.data"
-                :src="
-                  metaData.data.avatar
-                    ? metaData.data.avatar
-                    : '../static/photo-mr.jpg'
-                "
-                alt=""
-              />
-              <div v-if="metaData.data" class="nameTxt">
-                {{ metaData.data.user_name }}
+    <template v-if="isPc">
+      <topNav></topNav>
+      <is-layout>
+        <div class="contenIndex">
+          <div class="refereesLis">
+            <div class="refereesLis_left">
+              <div class="title">已注册裁判列表</div>
+              <div class="refereesLis_left_list">
+                <el-table
+                  :data="list"
+                  style="width: 100%"
+                  :cell-style="postStyle"
+                  :header-cell-style="postStyle"
+                >
+                  <el-table-column
+                    prop="referee_name"
+                    label="裁判名称"
+                    width="130"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="create_time"
+                    label="注册时间"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="mobile"
+                    label="联系方式"
+                  ></el-table-column>
+                  <el-table-column prop="city" label="地区"></el-table-column>
+                  <el-table-column
+                    prop="referee_Price"
+                    label="裁判出场费价格（元）"
+                  ></el-table-column>
+                </el-table>
               </div>
-              <span class="outlogin" @click="outlogin">退出登录</span>
-            </template>
+            </div>
+            <div class="refereesLis_right">
+              <template v-if="metaData.result == 0">
+                <img src="../static/photo-mr.jpg" alt="" />
+                <nuxt-link to="/login" class="text">去登录</nuxt-link>
+              </template>
+              <template v-else>
+                <span class="title">用户信息</span>
+                <img
+                  v-if="metaData.data"
+                  :src="
+                    metaData.data.avatar
+                      ? metaData.data.avatar
+                      : '../static/photo-mr.jpg'
+                  "
+                  alt=""
+                />
+                <div v-if="metaData.data" class="nameTxt">
+                  {{ metaData.data.user_name }}
+                </div>
+                <span class="outlogin" @click="outlogin">退出登录</span>
+              </template>
+            </div>
           </div>
-        </div>
-        <div class="newsList" v-if="news.length > 0">
-          <span>热点要闻</span>
-          <div class="newsLis">
-            <div
-              class="spanTitle"
-              v-for="(item, index) in news"
-              :key="index"
-              @click="toNews(item.link)"
-            >
-              {{ item.title }}
+          <div class="courseBox">
+            <span>健身课程</span>
+            <div class="couresList">
+              <div class="couresLis">
+                <div class="courseImg">
+                  <img src="../static/photo-mr.jpg" alt="" />
+                </div>
+                <div class="couresRight">
+                  <div class="courseTitle">
+                    健身课程健身课程健身课程健身课程健身课程健身课程 健身课程
+                  </div>
+                  <div class="couresRight_bottom">
+                    <div class="price">￥100</div>
+                    <div class="btn">购买</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="newsList" v-if="news.length > 0">
+            <span>热点要闻</span>
+            <div class="newsLis">
+              <div
+                class="spanTitle"
+                v-for="(item, index) in news"
+                :key="index"
+                @click="toNews(item.link)"
+              >
+                {{ item.title }}
+              </div>
+            </div>
+          </div>
+          <div class="newsList" v-if="nbaNews.length > 0">
+            <span>NBA新闻</span>
+            <div class="newsLis">
+              <div
+                class="spanTitle"
+                v-for="(item, index) in nbaNews"
+                :key="index"
+                @click="toNews(item.link)"
+              >
+                {{ item.title }}
+              </div>
             </div>
           </div>
         </div>
-        <div class="newsList" v-if="nbaNews.length > 0">
-          <span>NBA新闻</span>
-          <div class="newsLis">
-            <div
-              class="spanTitle"
-              v-for="(item, index) in nbaNews"
-              :key="index"
-              @click="toNews(item.link)"
-            >
-              {{ item.title }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </is-layout>
+      </is-layout>
+    </template>
   </div>
 </template>
 <script>
@@ -98,6 +119,7 @@ export default {
       list: [],
       news: [],
       nbaNews: [],
+      isPc: false,
     };
   },
   components: { topNav, isLayout },
@@ -120,8 +142,8 @@ export default {
     this.getNews();
     this.getNews(1);
     this.getReferLis();
-    // this.getData();
-    console.log(window.location.href)
+    this.getData();
+    this.isPc = this.fun.isPc();
   },
   methods: {
     outlogin() {
@@ -130,7 +152,7 @@ export default {
           this.$message.error(response.msg);
           return;
         }
-        // this.getData();
+        this.getData();
       });
     },
     postStyle() {
@@ -148,14 +170,13 @@ export default {
           this.$message.error(response.msg);
           return;
         }
-        if(response.data){
+        if (response.data) {
           if (key) {
             this.nbaNews = response.data;
           } else {
             this.news = response.data;
           }
         }
-        
       });
     },
     getReferLis() {
@@ -176,7 +197,7 @@ export default {
         });
     },
     getData() {
-      this.fun.$post("/user/checkLogin", {}, "loading").then((response) => {
+      this.fun.$post("/user/checkLoginUser", {}, "loading").then((response) => {
         this.metaData = response;
       });
     },
@@ -193,6 +214,66 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+.courseBox {
+  margin-top: 20px;
+  padding: 10px 15px;
+  .couresList {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    .couresLis {
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+      box-shadow: 1px;
+      border-radius: 8px;
+      display: flex;
+      padding: 10px;
+      .couresRight {
+        box-sizing: border-box;
+        padding: 5px 5px;
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .courseTitle {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .couresRight_bottom {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .price {
+            color: red;
+          }
+          .btn {
+            border-radius: 4px;
+            padding: 5px;
+            border: 1px solid #2492ff;
+            color: #000;
+            line-height: 10px;
+            font-size: 10px;
+          }
+        }
+      }
+      .courseImg {
+        width: 60px;
+        height: 60px;
+        margin-right: 5px;
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 8px;
+        }
+      }
+    }
+  }
+  span {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: left;
+  }
+}
 #referees {
   min-width: 1200px;
   min-height: 100vh;
@@ -200,6 +281,7 @@ export default {
   .contenIndex {
     margin-top: 20px;
     background: #fff;
+
     .newsList {
       margin-top: 20px;
       border-radius: 5px;
