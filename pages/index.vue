@@ -1,4 +1,3 @@
-
 <template>
   <div ID="referees">
     <template v-if="isPc">
@@ -139,9 +138,6 @@ export default {
     };
   },
   mounted() {
-    this.getNews();
-    this.getNews(1);
-    this.getReferLis();
     this.getData();
     this.isPc = this.fun.isPc();
   },
@@ -199,6 +195,11 @@ export default {
     getData() {
       this.fun.$post("/user/checkLoginUser", {}, "loading").then((response) => {
         this.metaData = response;
+        if (response.result == 1) {
+          this.getNews();
+          this.getNews(1);
+          this.getReferLis();
+        }
       });
     },
     toNews(link) {

@@ -11,7 +11,7 @@ var fun = {
       $post(url, params, message, type, headers) {
         // 请求超时的时间限制
         axios.defaults.timeout = 20000;
-
+        let webToken = localStorage.getItem("refereesToken");
         if (message) {
           loading = Loading.service({
             lock: true,
@@ -23,12 +23,9 @@ var fun = {
 
         let baseUrl = "";
         if (!headers) {
-          headers = {};
-        }
-        if (window.new_page_comeIn != 2) {
-          // 浏览足迹  new_page_comeIn == 2为页面第一个请求接口
-          // headers['local-url'] = `/${window.location.href.match(/shop_server\/(\S*)\?/) ? window.location.href.match(/shop_server\/(\S*)\?/)[1] : window.location.href.match(/82\/(\S*)\?/)[1]}`;
-          headers['full-url'] = `/${window.location.href}`;
+          headers = {
+            Authorization: "Bearer "+webToken
+          };
         }
 
         return new Promise((resolve, reject) => {
@@ -36,13 +33,12 @@ var fun = {
           console.log(baseUrl , url)
           axios.post(url, params, { headers: headers })
             .then(res => {
-              if (res.data.result === 0 && res.data.data && res.data.data.login_status === 1) {
+              if (res.data.result === 0 && (res.data.msg == "未登录" || res.data.msg == "请登录")) {
                 if (message) {
                   loading.close();
                 }
-                console.log(res)
-                // sessionStorage.setItem("yz_redirect", document.location.href);
-                // window.location.href = this.getSiteRoot() + "/plugins/shop_server/login?i=" + res.data.data.i;
+                Message.error(res.data.msg);
+                window.location.href = `${window.location.href}login`
               }
               return res.data
             })
@@ -62,7 +58,7 @@ var fun = {
       $get(url, params, message) {
         // 请求超时的时间限制
         axios.defaults.timeout = 20000;
-      
+        let webToken = localStorage.getItem("refereesToken");
         if (message) {
           loading = Loading.service({
             lock: true,
@@ -74,13 +70,9 @@ var fun = {
       
         let baseUrl = "";
       
-        let headers = {};
-        if (window.new_page_comeIn != 2) {
-          // 浏览足迹  new_page_comeIn == 2为页面第一个请求接口
-          // headers['local-url'] = `/${window.location.href.match(/shop_server\/(\S*)\?/) ? window.location.href.match(/shop_server\/(\S*)\?/)[1] : window.location.href.match(/82\/(\S*)\?/)[1]}`;
-          headers['full-url'] = `/${window.location.href}`;
-          window.new_page_comeIn = 2;
-        }
+        let headers = {
+          Authorization: "Bearer "+webToken
+        };
       
         return new Promise((resolve, reject) => {
           url = baseUrl + url;
@@ -91,8 +83,8 @@ var fun = {
               if (message) {
                 loading.close();
               }
-              sessionStorage.setItem("yz_redirect", document.location.href);
-              window.location.href = this.getSiteRoot() + "/plugins/shop_server/login?i=" + res.data.data.i;
+              // sessionStorage.setItem("yz_redirect", document.location.href);
+              // window.location.href = this.getSiteRoot() + "/plugins/shop_server/login?i=" + res.data.data.i;
             }
             return res.data
           }).then(res => {

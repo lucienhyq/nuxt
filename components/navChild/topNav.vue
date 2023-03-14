@@ -4,7 +4,7 @@
       <div class="navLi" :class="[routeName == 'index' ? 'isSelect' : '']">
         <nuxt-link to="/">首页</nuxt-link>
       </div>
-      <div
+      <!-- <div
         class="navLi"
         :class="[routeName == 'loginReferees' ? 'isSelect' : '']"
       >
@@ -12,7 +12,7 @@
       </div>
       <div class="navLi" :class="[routeName == 'refereesList' ? 'isSelect' : '']">
         <nuxt-link to="/refereesList">裁判列表</nuxt-link>
-      </div>
+      </div> -->
       <div class="navLi">联系我们</div>
     </div>
   </div>

@@ -13,7 +13,7 @@ export default function ({store, redirect, req, app: {$axios}}) {
   // response拦截器，数据返回后，可以先在这里进行判断
   $axios.interceptors.response.use(
     response => {
-      console.log(response.data)
+      console.log(response.data,'dddddddd')
       if(response.data.result == 0){
         Message({
           type: 'error',

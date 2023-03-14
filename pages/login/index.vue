@@ -63,6 +63,10 @@ export default {
       };
       this.fun.$post("/user/login", json, "loading").then((response) => {
         if (response.result) {
+          console.log(response.session)
+          if(response.data.token){
+            window.localStorage.setItem('refereesToken',response.data.token)
+          }
           this.$message.success(response.msg);
           this.$router.push({ name: "index", params: {} });
         } else {
