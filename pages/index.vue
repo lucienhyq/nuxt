@@ -194,6 +194,9 @@ export default {
     },
     getData() {
       this.fun.$post("/user/checkLoginUser", {}, "loading").then((response) => {
+        if(response.result == 0){
+          this.$router.push({path:`/login`})
+        }
         this.metaData = response;
         if (response.result == 1) {
           this.getNews();
