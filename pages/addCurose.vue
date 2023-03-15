@@ -33,23 +33,24 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="商品是否上架">
-              
+              <el-switch v-model="form.shelfStatus"> </el-switch>
+              <span class="shelfStatusTxt">{{
+                form.shelfStatus ? "上架" : "下架"
+              }}</span>
             </el-form-item>
-            <el-form-item label="课程价格">
-              <el-input
-                v-model="form.course_price"
-                style="width: 200px"
-                placeholder="请输入课程价格"
-              ></el-input>
+            <el-form-item label="课程图片">
+              <el-upload
+                action="https://lucien.freehk.svipss.top/posts"
+                list-type="picture-card"
+                :on-success="handlePictureCardPreview"
+                :on-remove="handleRemove"
+              >
+                <i class="el-icon-plus"></i>
+              </el-upload>
+              <!-- <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="dialogImageUrl" alt="" />
+              </el-dialog> -->
             </el-form-item>
-            <el-form-item label="课程价格">
-              <el-input
-                v-model="form.course_price"
-                style="width: 200px"
-                placeholder="请输入课程价格"
-              ></el-input>
-            </el-form-item>
-            
           </el-form>
         </div>
       </div>
@@ -70,12 +71,13 @@ export default {
         // 商品详情
         conten: "",
         // 商品是否上架
-        shelfStatus: "",
+        shelfStatus: false,
         // 课程图片
-        goodimg: "",
+        goodimg: [],
         // 库存
         inventory: 100,
       },
+      dialogVisible:false
     };
   },
   components: { isLayout, topNav },
@@ -85,7 +87,17 @@ export default {
     };
   },
   mounted() {},
-  methods: {},
+  methods: {
+    handleRemove(e){
+      console.log(e)
+    },
+    handlePictureCardPreview(file) {
+      this.form.goodimg.push(file.data)
+      console.log(this.form.goodimg,'goodimg')
+      // this.dialogImageUrl = file.url;
+      // this.dialogVisible = true;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -94,6 +106,9 @@ export default {
 }
 .formBox {
   margin-top: 20px;
+  .shelfStatusTxt {
+    color: #999;
+  }
 }
 .bgbox {
   margin-top: 20px;
