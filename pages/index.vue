@@ -6,7 +6,13 @@
         <div class="contenIndex">
           <div class="refereesLis">
             <div class="refereesLis_left">
-              <div class="title">已注册裁判列表</div>
+              <div class="title">
+                篮球裁判预约
+                <div class="more" @click="toRefereesList">
+                  查看更多
+                  <i class="el-icon-arrow-right"></i>
+                </div>
+              </div>
               <div class="refereesLis_left_list">
                 <el-table
                   :data="list"
@@ -42,15 +48,12 @@
               </template>
               <template v-else>
                 <span class="title">用户信息</span>
-                <img
+                <!-- <img
                   v-if="metaData.data"
-                  :src="
-                    metaData.data.avatar
-                      ? metaData.data.avatar
-                      : '../static/photo-mr.jpg'
-                  "
+                  :src="metaData.data.avatar"
                   alt=""
-                />
+                /> -->
+                <el-avatar square="square" :src="metaData.data?.metaData.data.avatar"></el-avatar>
                 <div v-if="metaData.data" class="nameTxt">
                   {{ metaData.data.user_name }}
                 </div>
@@ -142,12 +145,16 @@ export default {
     this.isPc = this.fun.isPc();
   },
   methods: {
+    toRefereesList(){
+      this.$router.push({ name: "refereesList", params: {} });
+    },
     outlogin() {
       this.fun.$get("/user/outLogin", {}, "loading").then((response) => {
         if (response.result !== 1) {
           this.$message.error(response.msg);
           return;
         }
+        window.localStorage.setItem("refereesToken",'')
         this.getData();
       });
     },
@@ -362,9 +369,18 @@ export default {
           font-size: 20px;
           font-weight: bold;
           padding: 10px 15px;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          .more {
+            font-size: 16px;
+            color: #999;
+            cursor: pointer;
+          }
         }
         .refereesLis_left_list {
           padding: 30px 15px;
+          padding-top: 10px;
           display: flex;
           justify-content: space-around;
         }

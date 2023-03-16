@@ -79,12 +79,12 @@ var fun = {
           axios.get(url, {
             params: params
           }, { headers: headers }).then(res => {
-            if (res.data.result === 0 && res.data.data && res.data.data.login_status === 1) {
+            if (res.data.result === 0 && (res.data.msg == "未登录" || res.data.msg == "请登录")) {
               if (message) {
                 loading.close();
               }
-              // sessionStorage.setItem("yz_redirect", document.location.href);
-              // window.location.href = this.getSiteRoot() + "/plugins/shop_server/login?i=" + res.data.data.i;
+              Message.error(res.data.msg);
+              window.location.href = `${window.location.href}login`
             }
             return res.data
           }).then(res => {
