@@ -28,14 +28,21 @@ export default {
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'element-ui/lib/theme-chalk/index.css','~assets/css/reset.css'
+    'element-ui/lib/theme-chalk/index.css','~assets/css/reset.css',
+    'quill/dist/quill.snow.css',
+    'quill/dist/quill.bubble.css',
+    'quill/dist/quill.core.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/axios', // 拦截器
-    { src: '@/plugins/fun.js', ssr: false }
+    { src: '@/plugins/fun.js', ssr: false },
+    {
+      src: '~/plugins/vue-quill-editor',
+      ssr: false
+    }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
