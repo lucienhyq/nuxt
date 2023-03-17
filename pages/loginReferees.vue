@@ -32,7 +32,7 @@
                 enctype="multipart/form-data"
                 accept="image/*"
                 class="avatar-uploader"
-                action="/user/posts"
+                action="https://lucien.freehk.svipss.top/posts"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
               >

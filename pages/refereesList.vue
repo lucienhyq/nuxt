@@ -3,7 +3,12 @@
     <topNav></topNav>
     <isLayout>
       <div class="selectBox">
-        <div class="txt">筛选</div>
+        <div class="topBg">
+          <div class="txt">筛选</div>
+          <div class="moreLogin" @click="toLoginReferees">注册裁判
+            <i class="el-icon-arrow-right"></i>
+          </div>
+        </div>
         <el-form
           ref="form"
           :model="form"
@@ -82,6 +87,12 @@
                 size="small"
                 >查看</el-button
               >
+              <el-button
+                @click="handleClick(scope.row)"
+                type="text"
+                size="small"
+                >预约</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -130,7 +141,10 @@ export default {
     };
   },
   methods: {
-    reset(){
+    toLoginReferees(){
+      this.$router.push({ name: "loginReferees", params: {} });
+    },
+    reset() {
       this.form.referee_name = "";
       this.form.city = "";
       this.form.creatId = "";
@@ -144,8 +158,8 @@ export default {
         return "二级";
       } else if (level == 3) {
         return "三级";
-      }else{
-        return "暂无等级"
+      } else {
+        return "暂无等级";
       }
     },
     onSubmit(e) {
@@ -200,10 +214,20 @@ export default {
     margin-top: 20px;
     padding: 30px 20px 0 20px;
     background: #fff;
-    .txt {
-      font-size: 20px;
-      font-weight: bold;
+    .topBg {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 30px;
+      .txt{
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .moreLogin{
+        cursor: pointer;
+        font-size: 18px;
+        color: #999;
+      }
     }
   }
   .list {

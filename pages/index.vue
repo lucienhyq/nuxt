@@ -48,21 +48,21 @@
               </template>
               <template v-else>
                 <span class="title">用户信息</span>
-                <!-- <img
-                  v-if="metaData.data"
-                  :src="metaData.data.avatar"
-                  alt=""
-                /> -->
-                <el-avatar square="square" :src="metaData.data?.metaData.data.avatar"></el-avatar>
-                <div v-if="metaData.data" class="nameTxt">
-                  {{ metaData.data.user_name }}
+                <el-avatar shape="square" :size="100" :src="metaData.avatar"></el-avatar>
+                <div v-if="metaData" class="nameTxt">
+                  {{ metaData.user_name }}
                 </div>
                 <span class="outlogin" @click="outlogin">退出登录</span>
               </template>
             </div>
           </div>
           <div class="courseBox">
-            <span>健身课程</span>
+            <div class="titleBg">
+              <span>健身课程</span>
+              <div class="right" @click="toCurose">添加课程
+                <i class="el-icon-arrow-right"></i>
+              </div>
+            </div>
             <div class="couresList">
               <div class="couresLis">
                 <div class="courseImg">
@@ -199,12 +199,15 @@ export default {
           this.list = response.data;
         });
     },
+    toCurose(){
+      this.$router.push({name:'addCurose'})
+    },  
     getData() {
       this.fun.$post("/user/checkLoginUser", {}, "loading").then((response) => {
         if(response.result == 0){
           this.$router.push({path:`/login`})
         }
-        this.metaData = response;
+        this.metaData = response.data;
         if (response.result == 1) {
           this.getNews();
           this.getNews(1);
@@ -228,6 +231,15 @@ export default {
 .courseBox {
   margin-top: 20px;
   padding: 10px 15px;
+  .titleBg{
+    display: flex;
+    justify-content: space-between;
+    .right{
+      font-size: 18px;
+      color: #999;
+      cursor: pointer;
+    }
+  }
   .couresList {
     margin-top: 20px;
     display: flex;
