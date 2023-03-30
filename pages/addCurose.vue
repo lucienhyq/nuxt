@@ -25,14 +25,6 @@
                 placeholder="请输入课程价格"
               ></el-input>
             </el-form-item>
-            <el-form-item label="商品详情">
-              <!-- <el-input
-                v-model="form.conten"
-                style="width: 300px"
-                placeholder="请输入商品详情"
-              ></el-input> -->
-              <quillEditor :contenInfo="form.conten" @quillBlur="quillBlur"></quillEditor>
-            </el-form-item>
             <el-form-item label="商品是否上架">
               <el-switch v-model="form.shelfStatus"> </el-switch>
               <span class="shelfStatusTxt">{{
@@ -41,7 +33,7 @@
             </el-form-item>
             <el-form-item label="课程图片">
               <el-upload
-                action="https://lucien.freehk.svipss.top/posts"
+                action="http://localhost:3000/posts"
                 list-type="picture-card"
                 :on-success="handlePictureCardPreview"
                 :on-remove="handleRemove"
@@ -55,6 +47,12 @@
                 style="width: 300px"
                 placeholder="请输入商品库存"
               ></el-input>
+            </el-form-item>
+            <el-form-item label="商品详情">
+              <quillEditor
+                :contenInfo="form.conten"
+                @quillBlur="quillBlur"
+              ></quillEditor>
             </el-form-item>
           </el-form>
         </div>
@@ -84,8 +82,8 @@ export default {
         // 库存
         inventory: "",
         // 商品类型
-        goodStatus:"2",
-        creatUser:1
+        goodStatus: "2",
+        creatUser: 1,
       },
       dialogVisible: false,
     };
@@ -102,8 +100,10 @@ export default {
   },
   mounted() {},
   methods: {
-    quillBlur(e){
+    quillBlur(e) {
+      console.log(e)
       this.form.conten = e;
+      console.log(this.form)
     },
     handlePictureCardPreview(file) {
       this.form.goodimg.push(file.data);
@@ -113,17 +113,13 @@ export default {
       console.log(this.form, "dddddd");
       this.form.goodimg = JSON.stringify(this.form.goodimg);
       this.fun
-        .$post(
-          "/user/courseIndex",
-          this.form,
-          "loading"
-        )
+        .$post("/user/courseIndex", this.form, "loading")
         .then((response) => {
           if (response.result !== 1) {
             this.$message.error(response.msg);
             return;
           }
-          console.log(response)
+          console.log(response);
         });
     },
     handleRemove(e) {

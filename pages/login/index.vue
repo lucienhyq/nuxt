@@ -26,7 +26,7 @@
             placeholder="请输入账号"
             style="margin-bottom: 22px"
           ></el-input>
-          <el-input v-model="password" placeholder="请输入密码"></el-input>
+          <el-input v-model="password" type="password" placeholder="请输入密码"></el-input>
           <div class="tips" v-if="status == 1" @click="status = 2">
             未注册会员，先去注册
           </div>

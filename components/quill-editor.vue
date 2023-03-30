@@ -18,7 +18,7 @@
       accept="image/*"
       class="quill-upload"
       :on-success="quillSuccess"
-      action="https://lucien.freehk.svipss.top/posts"
+      action="http://localhost:3000/posts"
     >
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">
@@ -74,6 +74,8 @@ export default {
           },
         },
       },
+      imgUrl: "",
+      focus: "",
     };
   },
   mounted() {
@@ -81,23 +83,23 @@ export default {
   },
   methods: {
     quillSuccess(e) {
-      console.log(e.data);
-      let imgUrl = e.data;
-      this.conten += `<img src="${imgUrl}" alt="内容图片">`;
-      console.log(this.conten,'ddddddddd')
+      console.log(e);
+      this.imgUrl = e.data;
+      let ind = this.focus.selection.savedRange.index;
+      this.focus.insertEmbed(ind, "image", this.imgUrl);
     },
     onEditorBlur(editor) {
-      console.log("editor blur!", editor);
-      this.$emit('quillBlur',this.conten)
+      console.log("editor blur!", editor.getText().trim().length);
     },
     onEditorFocus(editor) {
-      console.log("editor focus!", editor);
+      console.log(editor);
     },
     onEditorReady(editor) {
       console.log("editor ready!", editor);
+      this.focus = editor;
     },
     onEditorChange({ editor, html, text }) {
-      this.conten = html;
+      this.$emit("quillBlur", html);
     },
   },
 };
